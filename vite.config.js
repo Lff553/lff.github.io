@@ -36,7 +36,7 @@ export default defineConfig({
   },
   // 可选：优化构建
   build: {
-    outDir: 'dist',
+    outDir: 'docs',
     sourcemap: false,
     rollupOptions: {
       output: {
