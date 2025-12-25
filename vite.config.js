@@ -33,5 +33,16 @@ export default defineConfig({
     },
   },
 
-
+build: {
+    outDir: 'docs',  // 输出到 docs
+    assetsDir: 'assets',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    }
+  }
 })
