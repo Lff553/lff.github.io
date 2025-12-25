@@ -1,0 +1,8 @@
+# 禁用 Jekyll
+name: Disable Jekyll
+on: push
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Jekyll disabled for Vue app"
