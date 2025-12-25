@@ -25,9 +25,7 @@ export default defineConfig({
     },
   },
   // 关键修改：GitHub Pages 配置
-  base: process.env.NODE_ENV === 'production' 
-    ? '/lff.github.io/'  // 改为你的仓库名
-    : '/',
+  base: '/',
   
   resolve: {
     alias: {
@@ -35,17 +33,5 @@ export default defineConfig({
     },
   },
 
-  build: {
-    outDir: 'docs',  // GitHub Pages 默认读取 docs 目录
-    sourcemap: false,
-    emptyOutDir: true,  // 构建前清空输出目录
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vue: ['vue', 'vue-router', 'pinia'],
-          vendor: ['axios', 'lodash']
-        }
-      }
-    }
-  }
+
 })
