@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传调试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="file"] { width: 100%; padding: 8px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 4px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>图片上传调试工具</h1>
+        
+        <div class="form-group">
+            <label for="fileInput">选择图片文件:</label>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+        
+        <div class="form-group">
+            <button onclick="uploadImage()">上传图片</button>
+            <button onclick="checkFileInfo()">检查文件信息</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function checkFileInfo() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const resultDiv = document.getElementById('result');
+            
+            if (!file) {
+                resultDiv.innerHTML = '<div class="error">请先选择一个文件</div>';
+                return;
+            }
+            
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            const maxSizeMB = 10;
+            
+            let info = `
+                <div class="info">
+                    <h3>文件信息:</h3>
+                    <p><strong>文件名:</strong> ${file.name}</p>
+                    <p><strong>文件大小:</strong> ${fileSizeMB} MB (${file.size} bytes)</p>
+                    <p><strong>文件类型:</strong> ${file.type}</p>
+                    <p><strong>最大允许大小:</strong> ${maxSizeMB} MB</p>
+                    <p><strong>大小检查:</strong> ${file.size <= maxSizeMB * 1024 * 1024 ? '✅ 通过' : '❌ 超出限制'}</p>
+                </div>
+            `;
+            
+            resultDiv.innerHTML = info;
+        }
+        
+        async function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const resultDiv = document.getElementById('result');
+            
+            if (!file) {
+                resultDiv.innerHTML = '<div class="error">请先选择一个文件</div>';
+                return;
+            }
+            
+            // 显示文件信息
+            checkFileInfo();
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                resultDiv.innerHTML += '<div class="info">正在上传...</div>';
+                
+                const response = await fetch('http://localhost:8080/upload/image', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML += `
+                        <div class="success">
+                            <h3>上传成功!</h3>
+                            <p><strong>文件URL:</strong> ${data.url}</p>
+                            <p><strong>文件名:</strong> ${data.filename}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML += `
+                        <div class="error">
+                            <h3>上传失败 (${response.status})</h3>
+                            <p><strong>错误信息:</strong> ${data.error || '未知错误'}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += `
+                    <div class="error">
+                        <h3>网络错误</h3>
+                        <p><strong>错误信息:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
