@@ -14,12 +14,12 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': {
-        target: process.env.VITE_BACKEND_URL || 'http://localhost:8080',
+        target: process.env.VITE_BACKEND_URL || 'https://involved-robinett-lostandfound-c03d715f.koyeb.app',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, '/api')
       },
       '/files': {
-        target: process.env.VITE_BACKEND_URL || 'http://localhost:8080',
+        target: process.env.VITE_BACKEND_URL || 'https://involved-robinett-lostandfound-c03d715f.koyeb.app',
         changeOrigin: true,
       },
     },
