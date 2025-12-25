@@ -1,11 +1,25 @@
 import axios from 'axios'
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+const getApiBaseUrl = () => {
+  // 开发环境：使用代理
+  if (import.meta.env.DEV) {
+    return ''  // 会被 Vite 代理转发
+  }
+  
+  // 生产环境：使用完整地址
+  return 'https://involved-robinett-lostandfound-c03d715f.koyeb.app'
+}
+
+const apiBaseUrl = getApiBaseUrl()
+console.log('🔧 API地址:', apiBaseUrl)
+
+console.log('🌐 后端地址:', apiBaseUrl)
 
 const http = axios.create({
   baseURL: apiBaseUrl,
-  timeout: 10000,
+  timeout: 15000,
 })
+
 
 // 请求拦截器 - 添加认证头
 http.interceptors.request.use(
@@ -43,4 +57,3 @@ http.interceptors.response.use(
 )
 
 export default http
-
