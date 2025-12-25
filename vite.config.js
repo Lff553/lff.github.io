@@ -1,10 +1,9 @@
+// vite.config.js
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -25,9 +24,27 @@ export default defineConfig({
       },
     },
   },
+  // 添加 base 配置
+  base: process.env.NODE_ENV === 'production' 
+    ? '/lff.github.io/'  // GitHub Pages 需要子路径
+    : '/',         // 开发环境
+  
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // 可选：优化构建
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vue: ['vue', 'vue-router', 'pinia'],
+          vendor: ['axios', 'lodash']
+        }
+      }
+    }
+  }
 })
