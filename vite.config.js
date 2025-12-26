@@ -24,20 +24,24 @@ export default defineConfig({
       },
     },
   },
-  // 添加 base 配置
-  base:  '/',         // 开发环境
+  base: '/',
   
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // 可选：优化构建
+  
   build: {
     outDir: 'docs',
     sourcemap: false,
     rollupOptions: {
       output: {
+        // 关键修改：禁用哈希，使用固定文件名
+        entryFileNames: 'assets/index.js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]',
+        // 保持原来的分块配置
         manualChunks: {
           vue: ['vue', 'vue-router', 'pinia'],
           vendor: ['axios', 'lodash']
