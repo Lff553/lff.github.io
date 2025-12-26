@@ -17,12 +17,7 @@ console.log('🌐 后端地址:', apiBaseUrl)
 
 const http = axios.create({
   baseURL: apiBaseUrl,
-  timeout: 15000,
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
+  timeout: 15000
 })
 
 
