@@ -22,6 +22,10 @@ export default defineConfig({
         target:'https://involved-robinett-lostandfound-c03d715f.koyeb.app',
         changeOrigin: true,
       },
+'/uploads': {
+        target: 'https://involved-robinett-lostandfound-c03d715f.koyeb.app',
+        changeOrigin: true
+      },
     },
   },
   base: './',
