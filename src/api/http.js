@@ -7,7 +7,7 @@ const getApiBaseUrl = () => {
   }
   
   // 生产环境：使用完整地址
-  return 'https://involved-robinett-lostandfound-c03d715f.koyeb.app/api'
+  return 'https://involved-robinett-lostandfound-c03d715f.koyeb.app'
 }
 
 const apiBaseUrl = getApiBaseUrl()
