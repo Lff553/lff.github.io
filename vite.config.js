@@ -18,10 +18,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
-      '/files': {
-        target:'https://involved-robinett-lostandfound-c03d715f.koyeb.app',
-        changeOrigin: true,
-      },
     },
   },
   base: './',
